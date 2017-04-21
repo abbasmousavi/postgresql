@@ -31,7 +31,7 @@ public final class Database: ConnInfoInitializable {
 
     // MARK: - Query Execution
     @discardableResult
-    public func execute(_ query: String, _ values: [Node]? = [], on connection: Connection? = nil) throws -> [[String: Node]] {
+    public func execute(_ query: String, _ values: [Node] = [], on connection: Connection? = nil) throws -> Node {
         guard !query.isEmpty else {
             throw DatabaseError.noQuery
         }

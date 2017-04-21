@@ -33,7 +33,7 @@ public final class Connection: ConnInfoInitializable {
     }
 
     @discardableResult
-    public func execute(_ query: String, _ values: [Node]? = []) throws -> [[String: Node]] {
+    public func execute(_ query: String, _ values: [Node] = []) throws -> [[String: Node]] {
         guard !query.isEmpty else {
             throw DatabaseError.noQuery
         }
@@ -148,7 +148,8 @@ extension Connection {
         let values = try representable.map {
             return try $0.makeNode(in: PostgreSQLContext.shared)
         }
-
-        return try execute(query, values)
+        
+        let result = try execute(query, values).map { Node.object($0) }
+        return .array(result)
     }
 }
